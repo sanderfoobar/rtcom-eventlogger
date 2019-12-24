@@ -1,3 +1,9 @@
+rtcom-eventlogger (1.5.0) unstable; urgency=low
+
+  * Port to leste
+
+ -- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>  Tue, 24 Dec 2019 15:34:23 +0200
+
 rtcom-eventlogger (1.4-4+0m5) unstable; urgency=low
 
   * This entry has been added by BIFH queue processor
