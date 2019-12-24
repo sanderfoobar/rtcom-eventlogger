@@ -8,44 +8,16 @@ Section: libs
 Package: librtcom-eventlogger1
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, librtcom-eventlogger0 (= ${Source-Version})
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Event Logger Library.
   Event Logger Library.
-
-Package: librtcom-eventlogger1-dbg
-Section: libdevel
-Architecture: any
-Depends: librtcom-eventlogger1 (= ${Source-Version})
-Description: Event Logger Library. Debug symbols
-  Event Logger Library.
-  .
-  Debug symbols
-
-Package: librtcom-eventlogger0
-Section: libs
-Architecture: any
-Description: Event Logger Library (transitional dummy package)
-  Transitional dummy package to ensure SSU and migration to librtcom-eventlogger1
-  .
-  If your application depends on librtcom-eventlogger0, it will stop working.
-  Please port it to librtcom-eventlogger1. The eventlogger documentation
-  explains what the changes are and how to port your application.
-
-Package: librtcom-eventlogger0-dbg
-Section: libdevel
-Architecture: any
-Depends: librtcom-eventlogger0 (= ${Source-Version})
-Description: Event Logger Library, debug symbols (transitional dummy package)
-  Transitional dummy package to ensure SSU and migration to librtcom-eventlogger1
-  .
-  If your application depends on librtcom-eventlogger0, it will stop working.
-  Please port it to librtcom-eventlogger1. The eventlogger documentation
-  explains what the changes are and how to port your application.
 
 Package: librtcom-eventlogger-dev
 Section: libdevel
 Architecture: any
-Depends: librtcom-eventlogger1 (= ${Source-Version}), libsqlite3-dev
+Multi-Arch: same
+Depends: librtcom-eventlogger1 (= ${binary:Version}), libsqlite3-dev
 Description: Event Logger Library. Development files.
   Event Logger Library. 
   .
@@ -54,6 +26,7 @@ Description: Event Logger Library. Development files.
 Package: librtcom-eventlogger-testsuite
 Section: devel
 Architecture: any
+Multi-Arch: same
 XB-Testing-metadata: 
  <testinfo> 
  <target package="librtcom-eventlogger1" version="0.61+" />
@@ -72,7 +45,7 @@ XB-Testing-metadata:
    <case id="11" name="test_delete_events" />
  </set>
  </testinfo>
-Depends: librtcom-eventlogger1 (= ${Source-Version}), ${shlibs:Depends}
+Depends: librtcom-eventlogger1 (= ${source:Version}), ${shlibs:Depends}
 Description: Event Logger Library. Unit tests
  Event Logger Library.
  .
@@ -81,7 +54,8 @@ Description: Event Logger Library. Unit tests
 Package: rtcom-eventlogger-client
 Section: devel
 Architecture: any
-Depends: librtcom-eventlogger1 (= ${Source-Version}), ${shlibs:Depends}
+Multi-Arch: same
+Depends: librtcom-eventlogger1 (= ${binary:Version}), ${shlibs:Depends}
 Description: Event Logger command line client.
   The Event Logger command line client can be used to add, remove and edit
   events from the command line.
@@ -89,6 +63,7 @@ Description: Event Logger command line client.
 Package: librtcom-eventlogger-doc
 Section: doc
 Architecture: any
+Multi-Arch: foreign
 Description: Event Logger Library, API documentation.
   API documentation for the event logger library.
 

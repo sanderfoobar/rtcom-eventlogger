@@ -1,2 +1,3 @@
 usr/bin/rtcom-eventlogger-testsuite
-usr/lib/tests/*
+usr/lib/*/tests/*
+usr/lib/*/rtcom-eventlogger/plugins/test.so
