@@ -1,0 +1,11 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: librtcom-eventlogger
+Description: Events storage and retrieval database interface
+Requires: glib-2.0 >= 2.6.4 gobject-2.0 >= 2.6.4 gmodule-2.0 >= 2.6.4 sqlite3 >= @SQLITE_REQUIRED@
+Version: @VERSION@
+Libs: -L${libdir} -lrtcom-eventlogger
+Cflags: -I${includedir}

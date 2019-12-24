@@ -1,0 +1,142 @@
+{
+   g_get_home_dir and friends are designed to leak once per process
+   Memcheck:Leak
+   fun:malloc
+   fun:nss_parse_service_list
+   fun:__nss_database_lookup
+   obj:*
+   obj:*
+   fun:getpwnam_r@@GLIBC_2.1.2
+   fun:g_get_any_init_do
+}
+
+{
+   g_get_home_dir again
+   Memcheck:Leak
+   fun:malloc
+   fun:tsearch
+   fun:__nss_lookup_function
+   obj:*
+   obj:*
+   fun:getpwnam_r@@GLIBC_2.1.2
+   fun:g_get_any_init_do
+}
+
+{
+   g_get_home_dir again
+   Memcheck:Leak
+   fun:malloc
+   fun:__nss_lookup_function
+   obj:*
+   obj:*
+   fun:getpwnam_r@@GLIBC_2.1.2
+   fun:g_get_any_init_do
+}
+
+{
+   g_quark_from_static_string allocates hash table space
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:g_slice_init_nomessage
+   fun:g_slice_alloc
+   fun:g_hash_table_new_full
+   fun:g_hash_table_new
+   fun:g_quark_from_static_string
+}
+
+{
+   g_quark_from_static_string allocates hash table space again
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_hash_table_new_full
+   fun:g_hash_table_new
+   fun:g_quark_from_static_string
+}
+
+{
+   g_quark_from_static_string allocates space
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:g_quark_from_static_string
+}
+
+{
+   g_type_init allocates some misc
+   Memcheck:Leak
+   fun:realloc
+   fun:g_realloc
+   fun:g_boxed_type_register_static
+   fun:g_value_array_get_type
+   fun:g_param_spec_types_init
+   fun:g_type_init_with_debug_flags
+}
+
+{
+   just what is sqlite?
+   Memcheck:Param
+   write(buf)
+   obj:/lib*/libc-2.*.so
+   fun:pager_write_pagelist
+   fun:sqlite3PagerCommitPhaseOne
+   fun:sqlite3BtreeCommitPhaseOne
+   fun:sqlite3VdbeHalt
+   fun:sqlite3VdbeExec
+   fun:sqlite3_step
+}
+
+{
+   just what is sqlite? (2)
+   Memcheck:Param
+   write(buf)
+   obj:/lib*/libc-2.*.so
+   fun:pager_write
+   fun:sqlite3PagerWrite
+   fun:insertCell
+   obj:*/libsqlite3.so.*
+   fun:sqlite3VdbeExec
+   fun:sqlite3_step
+}
+
+{
+   just what is sqlite? (3)
+   Memcheck:Param
+   write(buf)
+   obj:/lib*/libc-2.*.so
+   fun:write32bits
+   fun:pager_write
+   fun:sqlite3PagerWrite
+   fun:insertCell
+   obj:*/libsqlite3.so.*
+   fun:sqlite3VdbeExec
+   fun:sqlite3_step
+}
+
+{
+   just what is sqlite? (4)
+   Memcheck:Param
+   write(buf)
+   obj:/lib*/libc-2.*.so
+   fun:pager_write
+   fun:sqlite3PagerWrite
+   obj:*/libsqlite3.so.*
+   fun:sqlite3VdbeExec
+   fun:sqlite3_step
+}
+
+{
+   just what is sqlite? (5)
+   Memcheck:Param
+   write(buf)
+   obj:/lib*/libc-2.*.so
+   fun:pager_write
+   fun:sqlite3PagerWrite
+   fun:balance
+   obj:*/libsqlite3.so.*
+   fun:sqlite3VdbeExec
+   fun:sqlite3_step
+}

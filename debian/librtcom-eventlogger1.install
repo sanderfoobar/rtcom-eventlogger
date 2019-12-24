@@ -1,0 +1,4 @@
+etc/osso-backup
+etc/osso-cud-scripts
+usr/lib/lib*.so.*
+usr/lib/rtcom-eventlogger/plugins/lib*.so
