@@ -46,3 +46,6 @@ VALGRIND_TESTS_ENVIRONMENT = \
 		--suppressions=$(top_srcdir)/data/rtcom-eventlogger.supp \
 		--num-callers=20 --error-exitcode=42 --gen-suppressions=all \
 		$(VALGRIND_FLAGS)
+
+runtestsdir = $(libdir)/tests/librtcom-eventlogger-testsuite
+runtests_SCRIPTS = runtests.sh

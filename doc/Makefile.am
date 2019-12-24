@@ -13,5 +13,5 @@ html/*:
 
 endif
 
-CLEANFILES = html/*
+CLEANFILES = html/* latex/*
 
