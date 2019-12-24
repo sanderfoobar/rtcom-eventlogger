@@ -445,7 +445,7 @@ _build_where_clause(
         case G_TYPE_INT:
         case G_TYPE_BOOLEAN:
             {
-                guint int_val = (guint) val;
+                guint int_val = GPOINTER_TO_UINT(val);
                 const gchar *op_string = _build_operator(op);
                 if(!op_string)
                     return FALSE;

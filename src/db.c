@@ -313,7 +313,7 @@ static rtcom_el_db_t
 _handle_corrupted (const gchar *fname, gboolean try_repairing,
     GError *err_to_clear)
 {
-    if (err_to_clear != NULL);
+    if (err_to_clear != NULL)
         g_error_free (err_to_clear);
 
     if (try_repairing)

@@ -122,7 +122,9 @@ event_new_full (time_t t)
 static void
 core_setup (void)
 {
+#if !GLIB_CHECK_VERSION(2,35,0)
     g_type_init ();
+#endif
     const gchar *home;
     gchar *fn;
 
@@ -348,6 +350,8 @@ START_TEST(test_add_full)
     gchar *path2;
     gchar *contents;
     gsize length;
+    gchar *basename1;
+    gchar *basename2;
 
     headers = g_hash_table_new_full (g_str_hash, g_str_equal,
             g_free, g_free);
@@ -417,8 +421,10 @@ START_TEST(test_add_full)
 
     fail_unless (event_id == att->event_id,
                  "attachment event ID doesn't match");
-    rtcom_fail_unless_strcmp (g_basename (path2), ==,
-            g_basename (att->path));
+    rtcom_fail_unless_strcmp (basename1 = g_path_get_basename (path2), ==,
+                              basename2 = g_path_get_basename (att->path));
+    g_free(basename1);
+    g_free(basename2);
     rtcom_fail_unless_strcmp (NULL, ==, att->desc);
     fail_unless (g_file_get_contents (att->path, &contents, &length, NULL));
     rtcom_fail_unless_uintcmp (length, ==, strlen ("other text\n"));
@@ -434,8 +440,10 @@ START_TEST(test_add_full)
 
     fail_unless (event_id == att->event_id,
                  "attachment event ID doesn't match");
-    rtcom_fail_unless_strcmp (g_basename (path1), ==,
-            g_basename (att->path));
+    rtcom_fail_unless_strcmp (basename1 = g_path_get_basename (path1), ==,
+                              basename2 = g_path_get_basename (att->path));
+    g_free(basename1);
+    g_free(basename2);
     rtcom_fail_unless_strcmp ("some file", ==, att->desc);
     fail_unless (g_file_get_contents (att->path, &contents, &length, NULL));
     rtcom_fail_unless_uintcmp (length, ==, strlen ("some text\n"));
@@ -531,6 +539,8 @@ START_TEST(test_attach)
     GError *error = NULL;
     gchar *attach_path;
     gint fd;
+    gchar *basename1;
+    gchar *basename2;
 
     ev = event_new_lite ();
     fail_if (ev == NULL, "Failed to create event");
@@ -625,8 +635,10 @@ START_TEST(test_attach)
 
     fail_unless (event_id == att->event_id,
                  "attachment event ID doesn't match");
-    rtcom_fail_unless_strcmp(g_basename(attach_path), ==,
-            g_basename(att->path));
+    rtcom_fail_unless_strcmp(basename1 = g_path_get_basename(attach_path), ==,
+                             basename2 = g_path_get_basename(att->path));
+    g_free(basename1);
+    g_free(basename2);
     rtcom_fail_unless_strcmp(ATTACH_DESC, ==, att->desc);
     fail_unless (g_file_get_contents (att->path, &contents, &length, NULL));
     rtcom_fail_unless_uintcmp (length, ==, 6);
@@ -1044,9 +1056,6 @@ START_TEST(test_ends_with)
     RTComElQuery * query = NULL;
     RTComElIter * it = NULL;
     gchar *contents;
-    time_t t = 0;
-
-    t = time (NULL);
 
     query = rtcom_el_query_new(el);
     if(!rtcom_el_query_prepare(
@@ -1161,11 +1170,8 @@ START_TEST(test_in_strv)
 {
     RTComElQuery * query = NULL;
     RTComElIter * it = NULL;
-    time_t t = 0;
     gchar *contents;
     const gchar * const interesting_people[] = { "Chris", "Dave", NULL };
-
-    t = time (NULL);
 
     query = rtcom_el_query_new(el);
     if(!rtcom_el_query_prepare(
@@ -1271,9 +1277,6 @@ START_TEST(test_string_equals)
     RTComElQuery * query = NULL;
     RTComElIter * it = NULL;
     gchar *contents;
-    time_t t = 0;
-
-    t = time (NULL);
 
     query = rtcom_el_query_new(el);
     if(!rtcom_el_query_prepare(
@@ -1318,9 +1321,6 @@ START_TEST(test_int_ranges)
     RTComElQuery * query = NULL;
     RTComElIter * it = NULL;
     gchar *contents;
-    time_t t = 0;
-
-    t = time (NULL);
 
     query = rtcom_el_query_new(el);
     if(!rtcom_el_query_prepare(

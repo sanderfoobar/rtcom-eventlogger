@@ -2693,7 +2693,6 @@ _init_plugin (
         RTComElPlugin * plugin,
         RTComElPrivate * priv)
 {
-    gboolean init;
     const gchar * name = NULL;
     const gchar * desc = NULL;
     RTComElService * service = NULL;
@@ -2713,7 +2712,8 @@ _init_plugin (
 
     /* Some plugins have init routine, others don't.
      * It's not an error, don't warn on it. */
-    init = plugin->init ? plugin->init(db) : FALSE;
+    if (plugin->init)
+        plugin->init(db);
 
     name = plugin->get_name();
     g_return_val_if_fail(name, -1);

@@ -71,7 +71,9 @@ main(int argc, char * argv[])
 
     ENSURE_ARG(command);
 
+#if !GLIB_CHECK_VERSION(2,35,0)
     g_type_init();
+#endif
     el = rtcom_el_new();
     if(!RTCOM_IS_EL(el))
     {
