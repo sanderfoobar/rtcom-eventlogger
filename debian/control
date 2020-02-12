@@ -1,7 +1,7 @@
 Source: rtcom-eventlogger
 Priority: extra
-Maintainer: Senko Rasic <senko.rasic@collabora.co.uk>
-Build-Depends: cdbs, debhelper (>= 5), autotools-dev, libglib2.0-dev, libsqlite3-dev, libdbus-1-dev, check, dbus, doxygen
+Maintainer: Ivan J. <parazyd@dyne.org>
+Build-Depends: debhelper (>= 10), autotools-dev, libglib2.0-dev, libsqlite3-dev, libdbus-1-dev, check, dbus, doxygen
 Standards-Version: 3.7.2
 Section: libs
 
@@ -19,7 +19,7 @@ Architecture: any
 Multi-Arch: same
 Depends: librtcom-eventlogger1 (= ${binary:Version}), libsqlite3-dev
 Description: Event Logger Library. Development files.
-  Event Logger Library. 
+  Event Logger Library.
   .
   Development files.
 
@@ -27,8 +27,8 @@ Package: librtcom-eventlogger-testsuite
 Section: devel
 Architecture: any
 Multi-Arch: same
-XB-Testing-metadata: 
- <testinfo> 
+XB-Testing-metadata:
+ <testinfo>
  <target package="librtcom-eventlogger1" version="0.61+" />
  <device id="0" />
  <set type="unit" id="0" name="eventloggerset" timeout="10000">
@@ -66,4 +66,3 @@ Architecture: any
 Multi-Arch: foreign
 Description: Event Logger Library, API documentation.
   API documentation for the event logger library.
-
