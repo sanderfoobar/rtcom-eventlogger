@@ -286,6 +286,7 @@ gboolean rtcom_el_query_refresh(
 {
     RTComElQueryPrivate * priv = NULL;
     const gchar *selection;
+    const gchar *order_by_clause;
 
     g_return_val_if_fail(query, FALSE);
 
@@ -331,9 +332,17 @@ gboolean rtcom_el_query_refresh(
             g_string_append(priv->sql, " GROUP BY Remotes.local_uid, Remotes.remote_uid");
     }
 
+    /* We need MAX() in case of GROUP BY as otherwise we may get the wrong
+     * result */
+    if (priv->group_by == RTCOM_EL_QUERY_GROUP_BY_CONTACT ||
+        priv->group_by == RTCOM_EL_QUERY_GROUP_BY_UIDS) {
+      order_by_clause = " ORDER BY MAX(Events.id) DESC LIMIT %d OFFSET %d;";
+    } else
+      order_by_clause = " ORDER BY Events.id DESC LIMIT %d OFFSET %d;";
+
     g_string_append_printf(
             priv->sql,
-            " ORDER BY Events.id DESC LIMIT %d OFFSET %d;",
+            order_by_clause,
             priv->limit,
             priv->offset);
 
