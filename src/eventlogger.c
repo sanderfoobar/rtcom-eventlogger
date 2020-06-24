@@ -56,9 +56,8 @@
  * "somewhere between 1 and 3". */
 #define MAX_SQLITE_BUSY_LOOP_TIME 2
 
-#define RTCOM_EL_GET_PRIV(el) (G_TYPE_INSTANCE_GET_PRIVATE ((el), \
-            RTCOM_TYPE_EL, RTComElPrivate))
-G_DEFINE_TYPE(RTComEl, rtcom_el, G_TYPE_OBJECT);
+#define RTCOM_EL_GET_PRIV(el) ((RTComElPrivate *) \
+  rtcom_el_get_instance_private(RTCOM_EL(el)))
 
 enum
 {
@@ -93,6 +92,8 @@ struct _RTComElPrivate {
 
     gchar * last_group_uid;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE(RTComEl, rtcom_el, G_TYPE_OBJECT);
 
 /**************************************/
 /* Private functions prototypes begin */
@@ -357,7 +358,7 @@ static void rtcom_el_class_init(
         RTComElClass * klass)
 {
     GObjectClass* object_class = G_OBJECT_CLASS (klass);
-    g_type_class_add_private(object_class, sizeof(RTComElPrivate));
+
     object_class->finalize = rtcom_el_finalize;
     object_class->dispose = rtcom_el_dispose;
     object_class->get_property = rtcom_el_get_property;

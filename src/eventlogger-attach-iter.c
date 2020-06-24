@@ -22,15 +22,17 @@
 
 #include <sqlite3.h>
 
-#define RTCOM_EL_ATTACH_ITER_GET_PRIV(it) (G_TYPE_INSTANCE_GET_PRIVATE ((it), \
-            RTCOM_TYPE_EL_ATTACH_ITER, RTComElAttachIterPrivate))
-G_DEFINE_TYPE(RTComElAttachIter, rtcom_el_attach_iter, G_TYPE_OBJECT);
+#define RTCOM_EL_ATTACH_ITER_GET_PRIV(it) ((RTComElAttachIterPrivate *) \
+  rtcom_el_attach_iter_get_instance_private(RTCOM_EL_ATTACH_ITER(it)))
 
 typedef struct _RTComElAttachIterPrivate RTComElAttachIterPrivate;
 struct _RTComElAttachIterPrivate {
     sqlite3 * db;
     sqlite3_stmt * stmt;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE(RTComElAttachIter, rtcom_el_attach_iter,
+                           G_TYPE_OBJECT);
 
 enum {
     RTCOM_EL_ATTACH_ITER_PROP_DB = 1,
@@ -124,7 +126,7 @@ static void rtcom_el_attach_iter_class_init(
         RTComElAttachIterClass * klass)
 {
     GObjectClass * object_class = G_OBJECT_CLASS(klass);
-    g_type_class_add_private(object_class, sizeof (RTComElAttachIterPrivate));
+
     object_class->finalize = rtcom_el_attach_iter_finalize;
     object_class->set_property = rtcom_el_attach_iter_set_property;
     object_class->get_property = rtcom_el_attach_iter_get_property;

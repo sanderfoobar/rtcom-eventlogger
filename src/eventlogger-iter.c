@@ -29,9 +29,8 @@
 #include <string.h>
 #include <sched.h>
 
-#define RTCOM_EL_ITER_GET_PRIV(it) (G_TYPE_INSTANCE_GET_PRIVATE ((it), \
-            RTCOM_TYPE_EL_ITER, RTComElIterPrivate))
-G_DEFINE_TYPE(RTComElIter, rtcom_el_iter, G_TYPE_OBJECT);
+#define RTCOM_EL_ITER_GET_PRIV(it) ((RTComElIterPrivate *) \
+  rtcom_el_iter_get_instance_private(RTCOM_EL_ITER(it)))
 
 typedef struct _RTComElIterPrivate RTComElIterPrivate;
 struct _RTComElIterPrivate {
@@ -55,8 +54,9 @@ struct _RTComElIterPrivate {
     gint current_service_id;
     gint current_event_type_id;
     RTComElPlugin *currently_active_plugin;
-
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE(RTComElIter, rtcom_el_iter, G_TYPE_OBJECT);
 
 enum
 {
@@ -277,7 +277,7 @@ static void rtcom_el_iter_class_init(
         RTComElIterClass * klass)
 {
     GObjectClass * object_class = G_OBJECT_CLASS(klass);
-    g_type_class_add_private(object_class, sizeof (RTComElIterPrivate));
+
     object_class->finalize = rtcom_el_iter_finalize;
     object_class->set_property = rtcom_el_iter_set_property;
     object_class->get_property = rtcom_el_iter_get_property;

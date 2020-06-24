@@ -24,9 +24,8 @@
 
 #include "rtcom-eventlogger/db.h"
 
-#define RTCOM_EL_QUERY_GET_PRIV(ev) (G_TYPE_INSTANCE_GET_PRIVATE ((ev), \
-            RTCOM_TYPE_EL_QUERY, RTComElQueryPrivate))
-G_DEFINE_TYPE(RTComElQuery, rtcom_el_query, G_TYPE_OBJECT);
+#define RTCOM_EL_QUERY_GET_PRIV(ev) ((RTComElQueryPrivate *) \
+  rtcom_el_query_get_instance_private(RTCOM_EL_QUERY(ev)))
 
 typedef struct _RTComElQueryPrivate RTComElQueryPrivate;
 struct _RTComElQueryPrivate {
@@ -44,6 +43,8 @@ struct _RTComElQueryPrivate {
     GString * sql;
     gchar * where_clause;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE(RTComElQuery, rtcom_el_query, G_TYPE_OBJECT);
 
 static gboolean _build_where_clause(
         RTComElQuery * query,
@@ -172,7 +173,7 @@ static void rtcom_el_query_class_init(
         RTComElQueryClass * klass)
 {
     GObjectClass* object_class = G_OBJECT_CLASS(klass);
-    g_type_class_add_private(object_class, sizeof(RTComElQueryPrivate));
+
     object_class->finalize = rtcom_el_query_finalize;
     object_class->set_property = rtcom_el_query_set_property;
     object_class->get_property = rtcom_el_query_get_property;
