@@ -1094,6 +1094,36 @@ START_TEST(test_ends_with)
 }
 END_TEST
 
+START_TEST(test_like)
+{
+    RTComElQuery * query = NULL;
+    RTComElIter * it = NULL;
+    gchar *contents;
+
+    query = rtcom_el_query_new(el);
+    if(!rtcom_el_query_prepare(
+        query,
+        "free-text", "AM oNLi", RTCOM_EL_OP_STR_LIKE,
+        NULL))
+    {
+        fail("Failed to prepare the query.");
+    }
+
+    it = rtcom_el_get_events(el, query);
+    g_object_unref(query);
+
+    fail_unless(it != NULL, "Failed to get iterator");
+    fail_unless(rtcom_el_iter_first(it), "Failed to start iterator");
+
+    fail_unless(rtcom_el_iter_get_values(it, "free-text", &contents, NULL));
+
+    rtcom_fail_unless_strcmp("I am online", ==, contents);
+    g_free(contents);
+
+    g_object_unref(it);
+}
+END_TEST
+
 START_TEST(test_delete_events)
 {
     RTComElQuery * query = NULL;
@@ -1660,6 +1690,7 @@ el_suite(void)
     tcase_add_test(tc_core, test_get_int);
     tcase_add_test(tc_core, test_get_string);
     tcase_add_test(tc_core, test_ends_with);
+    tcase_add_test(tc_core, test_like);
     tcase_add_test(tc_core, test_delete_events);
     tcase_add_test(tc_core, test_delete_event);
     tcase_add_test(tc_core, test_in_strv);
