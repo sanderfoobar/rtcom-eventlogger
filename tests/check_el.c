@@ -1103,7 +1103,7 @@ START_TEST(test_like)
     query = rtcom_el_query_new(el);
     if(!rtcom_el_query_prepare(
         query,
-        "free-text", "AM oNLi", RTCOM_EL_OP_STR_LIKE,
+        "free-text", "%%AM oNLi%%", RTCOM_EL_OP_STR_LIKE,
         NULL))
     {
         fail("Failed to prepare the query.");
