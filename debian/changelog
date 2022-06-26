@@ -1,3 +1,9 @@
+rtcom-eventlogger (1.5.2) unstable; urgency=low
+
+  * Add RTCOM_EL_OP_STR_LIKE for full text search purposes
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Sun, 26 Jun 2022 17:13:48 +0200
+
 rtcom-eventlogger (1.5.1) unstable; urgency=low
 
   * remove deprecated g_type_class_add_private
