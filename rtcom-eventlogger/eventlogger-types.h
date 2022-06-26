@@ -76,9 +76,11 @@ typedef enum {
     RTCOM_EL_OP_LESS,          /** Test if the first operand is smaller. */
     RTCOM_EL_OP_LESS_EQUAL,    /** Test if the first operand is smaller or equal. */
     RTCOM_EL_OP_IN_STRV,       /** Tests if the first operand is one of the strings in the array */
-    RTCOM_EL_OP_STR_ENDS_WITH  /** Tests if the first operand (a string) ends
-                                   with the given string. NOTE: not supported
-                                   when querying for "service", "event-type".*/
+    RTCOM_EL_OP_STR_ENDS_WITH, /** Tests if the first operand (a string) ends with the given string.
+                                   NOTE: not supported when querying for "service", "event-type". */
+    RTCOM_EL_OP_STR_LIKE       /** Tests if the first operand (a string) is present
+                                   NOTE: not supported when querying for "service", "event-type". Case-insensitive. */
+
 } RTComElOp;
 
 #define RTCOM_EL_FLAG_GENERIC_READ 1<<0

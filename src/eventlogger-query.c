@@ -468,7 +468,17 @@ _build_where_clause(
             }
 
         case G_TYPE_STRING:
-            if(op == RTCOM_EL_OP_IN_STRV)
+            {
+            if(op == RTCOM_EL_OP_STR_LIKE)
+            {
+                gchar *string_val = (gchar *) val;
+                char *tmp = sqlite3_mprintf("%s LIKE '%q'",
+                                            (gchar *) g_hash_table_lookup(priv->mapping, key),
+                                            string_val);
+                g_string_append(ret, tmp);
+                sqlite3_free(tmp);
+            }
+            else if(op == RTCOM_EL_OP_IN_STRV)
             {
                 gchar **strv_val = (gchar **) val;
                 g_string_append_printf(
@@ -506,7 +516,7 @@ _build_where_clause(
                 sqlite3_free (tmp);
             }
             return TRUE;
-
+            }
         default:
             g_debug ("%s: unknown key %s", G_STRFUNC, key);
             g_return_val_if_reached (FALSE);
@@ -526,6 +536,7 @@ _build_operator (RTComElOp op)
         case RTCOM_EL_OP_LESS_EQUAL: return "<=";
         case RTCOM_EL_OP_IN_STRV: g_return_val_if_reached(NULL);
         case RTCOM_EL_OP_STR_ENDS_WITH: g_return_val_if_reached(NULL);
+        case RTCOM_EL_OP_STR_LIKE: g_return_val_if_reached(NULL);
         default: g_return_val_if_reached(NULL);
     }
 }
