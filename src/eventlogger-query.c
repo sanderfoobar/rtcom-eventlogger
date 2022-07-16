@@ -226,7 +226,7 @@ static void rtcom_el_query_class_init(
                 "Group events by",
                 "Group events by",
                 RTCOM_EL_QUERY_GROUP_BY_NONE,
-                RTCOM_EL_QUERY_GROUP_BY_GROUP,
+                RTCOM_EL_QUERY_GROUP_BY_EVENTS_LOCAL_UID,
                 RTCOM_EL_QUERY_GROUP_BY_NONE,
                 G_PARAM_READWRITE));
 }
@@ -330,12 +330,15 @@ gboolean rtcom_el_query_refresh(
             g_string_append(priv->sql, " GROUP BY unique_remote");
         else if(priv->group_by == RTCOM_EL_QUERY_GROUP_BY_UIDS)
             g_string_append(priv->sql, " GROUP BY Remotes.local_uid, Remotes.remote_uid");
+        else if(priv->group_by == RTCOM_EL_QUERY_GROUP_BY_EVENTS_LOCAL_UID)
+            g_string_append(priv->sql, " GROUP BY Events.local_uid");
     }
 
     /* We need MAX() in case of GROUP BY as otherwise we may get the wrong
      * result */
     if (priv->group_by == RTCOM_EL_QUERY_GROUP_BY_CONTACT ||
-        priv->group_by == RTCOM_EL_QUERY_GROUP_BY_UIDS) {
+        priv->group_by == RTCOM_EL_QUERY_GROUP_BY_UIDS ||
+        priv->group_by == RTCOM_EL_QUERY_GROUP_BY_EVENTS_LOCAL_UID) {
       order_by_clause = " ORDER BY MAX(Events.id) DESC LIMIT %d OFFSET %d;";
     } else
       order_by_clause = " ORDER BY Events.id DESC LIMIT %d OFFSET %d;";
